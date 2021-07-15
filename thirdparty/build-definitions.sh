@@ -815,7 +815,7 @@ build_boost() {
   fi
 
   # Build the date_time boost lib.
-  ./bootstrap.sh --prefix=$PREFIX threading=multi --with-libraries=date_time
+  ./bootstrap.sh --prefix=$PREFIX threading=multi --with-libraries=date_time compiler.balcklist clang --with-toolset=clang
   ./b2 clean $TOOLSET --build-dir="$BOOST_BDIR"
   ./b2 install variant=release link=static,shared --build-dir="$BOOST_BDIR" $TOOLSET -q -d0 \
     --debug-configuration \
@@ -844,6 +844,9 @@ build_sparsepp() {
 }
 
 build_thrift() {
+
+  echo "----------build_thrift_begin---------"
+
   THRIFT_BDIR=$TP_BUILD_DIR/$THRIFT_NAME$MODE_SUFFIX
   mkdir -p $THRIFT_BDIR
   pushd $THRIFT_BDIR
@@ -883,6 +886,8 @@ build_thrift() {
   # Install fb303.thrift into the share directory.
   mkdir -p $PREFIX/share/fb303/if
   cp $THRIFT_SOURCE/contrib/fb303/if/fb303.thrift $PREFIX/share/fb303/if
+
+  echo "----------build_thrift_end---------"
 }
 
 build_bison() {
